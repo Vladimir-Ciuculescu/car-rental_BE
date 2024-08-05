@@ -22,12 +22,6 @@ export class UserController {
   @Post('login')
   async login(@Body() body: { email: string; password: string }) {
     const { email, password } = body;
-    const user = await this.userService.validateUser(email, password);
-    if (user) {
-      // Implement JWT or session management here
-      return { message: 'Login successful', user };
-    } else {
-      return { message: 'Invalid credentials' };
-    }
+    return this.userService.validateUser(email, password);
   }
 }

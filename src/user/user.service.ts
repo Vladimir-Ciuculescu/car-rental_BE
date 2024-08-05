@@ -1,6 +1,5 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
-import { Prisma } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -26,9 +25,12 @@ export class UserService {
 
   async validateUser(email: string, password: string) {
     const user = await this.prisma.user.findUnique({ where: { email } });
-    if (user && (await bcrypt.compare(password, user.password))) {
-      return user;
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+      throw new HttpException(
+        { message: 'User does not exist' },
+        HttpStatus.NOT_FOUND,
+      );
     }
-    return null;
+    return user;
   }
 }
