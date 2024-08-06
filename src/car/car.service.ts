@@ -22,4 +22,20 @@ export class CarService {
 
     return { message: 'Car listed succesfully !' };
   }
+
+  async getAvailableCars(query) {
+    const { brand, model } = query;
+
+    const filterCondition = {
+      isAvailable: true,
+      ...(brand && { brand: brand }),
+      ...(model && { model: model }),
+    };
+
+    const cars = await this.prismaService.car.findMany({
+      where: filterCondition,
+    });
+
+    return cars;
+  }
 }

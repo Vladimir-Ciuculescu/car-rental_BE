@@ -24,6 +24,7 @@ model Car {
   yearOfProduction Int
   costPerHour      Float
   description      String?
+  isAvailable    Boolean  @default(true) // Field to track if the car is available
   ownerId          Int
   owner            User    @relation("OwnerCars", fields: [ownerId], references: [id])
 
