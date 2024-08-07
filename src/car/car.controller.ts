@@ -24,4 +24,9 @@ export class CarController {
   async getAvailableCars(@Query() query) {
     return this.carService.getAvailableCars(query);
   }
+
+  @Get('/car-details/:id')
+  async getCarDetails(@Param('id') id) {
+    return this.carService.getCarDetails(parseInt(id));
+  }
 }

@@ -24,10 +24,11 @@ export class CarService {
   }
 
   async getAvailableCars(query) {
-    const { brand, model } = query;
+    const { brand, model, ownerId } = query;
 
     const filterCondition = {
       isAvailable: true,
+      ownerId: { not: parseInt(ownerId) },
       ...(brand && { brand: brand }),
       ...(model && { model: model }),
     };
@@ -37,5 +38,13 @@ export class CarService {
     });
 
     return cars;
+  }
+
+  async getCarDetails(carId: number) {
+    const car = await this.prismaService.car.findFirst({
+      where: { id: carId },
+    });
+
+    return car;
   }
 }

@@ -8,26 +8,48 @@ generator client {
 }
 
 model User {
-  id        Int    @id @default(autoincrement())
-  firstName String
-  lastName  String
-  email     String @unique
-  password  String
-  cars      Car[]  @relation("OwnerCars")
+  id             Int             @id @default(autoincrement())
+  firstName      String
+  lastName       String
+  email          String          @unique
+  password       String
+  cars           Car[]           @relation("OwnerCars")
+  rentalRequests RentalRequest[] @relation("RentalRequests")
 }
 
 model Car {
-  id               Int     @id @default(autoincrement())
+  id               Int             @id @default(autoincrement())
   brand            String
   model            String
   image            String
   yearOfProduction Int
   costPerHour      Float
   description      String?
-  isAvailable    Boolean  @default(true) // Field to track if the car is available
+  isAvailable      Boolean         @default(true) // Field to track if the car is available
   ownerId          Int
-  owner            User    @relation("OwnerCars", fields: [ownerId], references: [id])
+  owner            User            @relation("OwnerCars", fields: [ownerId], references: [id])
+  rentalRequests   RentalRequest[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model RentalRequest {
+  id         Int          @id @default(autoincrement())
+  startDate  DateTime
+  endDate    DateTime
+  totalPrice Float
+  status     RentalStatus @default(PENDING)
+  carId      Int
+  car        Car          @relation(fields: [carId], references: [id])
+  userId     Int
+  user       User         @relation("RentalRequests", fields: [userId], references: [id])
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+}
+
+enum RentalStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
 }

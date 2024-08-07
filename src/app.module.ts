@@ -6,9 +6,10 @@ import { CarModule } from './car/car.module';
 import { S3Module } from './s3/s3.module';
 import { S3Service } from './s3/s3.service';
 import { S3Client } from '@aws-sdk/client-s3';
+import { RequestModule } from './request/request.module';
 
 @Module({
-  imports: [UserModule, CarModule, S3Module],
+  imports: [UserModule, CarModule, S3Module, RequestModule],
   controllers: [AppController],
   providers: [AppService, S3Service, S3Client],
 })
