@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { CarModule } from './car/car.module';
 import { S3Module } from './s3/s3.module';
@@ -10,7 +8,6 @@ import { RequestModule } from './request/request.module';
 
 @Module({
   imports: [UserModule, CarModule, S3Module, RequestModule],
-  controllers: [AppController],
-  providers: [AppService, S3Service, S3Client],
+  providers: [S3Service, S3Client],
 })
 export class AppModule {}

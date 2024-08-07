@@ -6,6 +6,6 @@ async function bootstrap() {
 
   app.enableCors({});
 
-  await app.listen(3000); // Backend port
+  await app.listen(3000);
 }
 bootstrap();
